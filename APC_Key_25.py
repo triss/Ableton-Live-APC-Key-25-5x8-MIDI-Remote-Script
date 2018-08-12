@@ -64,18 +64,22 @@ class APC_Key_25(APC, OptimizedControlSurface):
         self._shift_button = make_button(0, 98, resource_type=SharedResource, name='Shift_Button')
         self._parameter_knobs = [ make_knob(0, index + 48, name='Parameter_Knob_%d' % (index + 1)) for index in xrange(self.SESSION_WIDTH)
                                 ]
-        self._select_buttons = [ make_stop_button(0, 64 + index,
+        self._scence_launch_buttons = [ make_stop_button(0, 82 + index,
                                                   name='Track_Select_%d' % (index + 1))
-                                 for index in xrange(self.SESSION_WIDTH)]
+                                 for index in xrange(self.MATRIX_HEIGHT)]
 
-        self._up_button = self.make_shifted_button(self._select_buttons[0])
-        self._down_button = self.make_shifted_button(self._select_buttons[1])
-        self._left_button = self.make_shifted_button(self._select_buttons[2])
-        self._right_button = self.make_shifted_button(self._select_buttons[3])
-        self._volume_button = self.make_shifted_button(self._select_buttons[4])
-        self._pan_button = self.make_shifted_button(self._select_buttons[5])
-        self._send_button = self.make_shifted_button(self._select_buttons[6])
-        self._device_button = self.make_shifted_button(self._select_buttons[7])
+        self._select_buttons = [ make_color_button(0, index + 64,
+                                                         name='Scene_Launch_%d' % (index + 1))
+                                       for index in xrange(self.MATRIX_WIDTH)]
+
+        self._up_button = self.make_shifted_button(self.scene_launch_buttons[0])
+        self._down_button = self.make_shifted_button(self._scene_launch_buttons[1])
+        self._left_button = self.make_shifted_button(self._scene_launch_buttons[2])
+        self._right_button = self.make_shifted_button(self._scene_launch_buttons[3])
+        self._volume_button = self.make_shifted_button(self._scene_launch_buttons[4])
+        self._pan_button = self.make_shifted_button(self._scene_launch_buttons[5])
+        self._send_button = self.make_shifted_button(self._scene_launch_buttons[6])
+        self._device_button = self.make_shifted_button(self._scene_launch_buttons[7])
         if self.HAS_TRANSPORT:
             self._play_button = make_on_off_button(0, 91, name='Play_Button')
             self._record_button = make_on_off_button(0, 93, name='Record_Button')
@@ -90,15 +94,11 @@ class APC_Key_25(APC, OptimizedControlSurface):
 
         self._session_matrix = ButtonMatrixElement(name='Button_Matrix', rows=self._matrix_buttons)
 
-        self._scene_launch_buttons = [ make_color_button(0, index + 82,
-                                                         name='Scene_Launch_%d' % (index + 1))
-                                       for index in xrange(self.SESSION_HEIGHT)]
-
-        self._stop_button = self.make_shifted_button(self._scene_launch_buttons[0])
-        self._solo_button = self.make_shifted_button(self._scene_launch_buttons[1])
-        self._arm_button = self.make_shifted_button(self._scene_launch_buttons[2])
-        self._mute_button = self.make_shifted_button(self._scene_launch_buttons[3])
-        self._select_button = self.make_shifted_button(self._scene_launch_buttons[4])
+        self._stop_button = self.make_shifted_button(self._select_buttons[0])
+        self._solo_button = self.make_shifted_button(self._select_buttons[1])
+        self._arm_button = self.make_shifted_button(self._select_buttons[2])
+        self._mute_button = self.make_shifted_button(self._select_buttons[3])
+        self._select_button = self.make_shifted_button(self._select_buttons[4])
         self._stop_all_button = self._make_stop_all_button()
 
     def _make_stop_all_button(self):

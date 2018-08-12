@@ -72,10 +72,10 @@ class APC_Key_25(APC, OptimizedControlSurface):
                                                          name='Track_Select_%d' % (index + 1))
                                        for index in xrange(self.MATRIX_TRACKS)]
 
-        self._up_button = self.make_shifted_button(self._scene_launch_buttons[0])
-        self._down_button = self.make_shifted_button(self._scene_launch_buttons[1])
-        self._left_button = self.make_shifted_button(self._scene_launch_buttons[2])
-        self._right_button = self.make_shifted_button(self._scene_launch_buttons[3])
+        self._right_button = self.make_shifted_button(self._scene_launch_buttons[0])
+        self._left_button = self.make_shifted_button(self._scene_launch_buttons[1])
+        self._up_button = self.make_shifted_button(self._scene_launch_buttons[2])
+        self._down_button = self.make_shifted_button(self._scene_launch_buttons[3])
         self._volume_button = self.make_shifted_button(self._scene_launch_buttons[4])
         self._pan_button = self.make_shifted_button(self._scene_launch_buttons[5])
         self._send_button = self.make_shifted_button(self._scene_launch_buttons[6])

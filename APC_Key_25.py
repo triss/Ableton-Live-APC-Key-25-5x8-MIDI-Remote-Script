@@ -24,6 +24,10 @@ class APC_Key_25(APC, OptimizedControlSurface):
     SESSION_HEIGHT = 5
     HAS_TRANSPORT = True
 
+    # Our clip launcher is sideways
+    MATRIX_WIDTH = SESSION_HEIGHT
+    MATRIX_HEIGHT = SESSION_WIDTH
+
     def make_shifted_button(self, button):
         return ComboElement(button, modifiers=[self._shift_button])
 
@@ -60,8 +64,10 @@ class APC_Key_25(APC, OptimizedControlSurface):
         self._shift_button = make_button(0, 98, resource_type=SharedResource, name='Shift_Button')
         self._parameter_knobs = [ make_knob(0, index + 48, name='Parameter_Knob_%d' % (index + 1)) for index in xrange(self.SESSION_WIDTH)
                                 ]
-        self._select_buttons = [ make_stop_button(0, 64 + index, name='Track_Select_%d' % (index + 1)) for index in xrange(self.SESSION_WIDTH)
-                               ]
+        self._select_buttons = [ make_stop_button(0, 64 + index,
+                                                  name='Track_Select_%d' % (index + 1))
+                                 for index in xrange(self.SESSION_WIDTH)]
+
         self._up_button = self.make_shifted_button(self._select_buttons[0])
         self._down_button = self.make_shifted_button(self._select_buttons[1])
         self._left_button = self.make_shifted_button(self._select_buttons[2])
@@ -77,11 +83,17 @@ class APC_Key_25(APC, OptimizedControlSurface):
         def matrix_note(x, y):
             return x + self.SESSION_WIDTH * (self.SESSION_HEIGHT - y - 1)
 
-        self._matrix_buttons = [ [ make_color_button(0, matrix_note(track, scene), name='%d_Clip_%d_Button' % (track, scene)) for track in xrange(self.SESSION_WIDTH) ] for scene in xrange(self.SESSION_HEIGHT)
-                               ]
+        self._matrix_buttons = [ [ make_color_button(0, matrix_note(track, scene),
+                                                     name='%d_Clip_%d_Button' % (track, scene))
+                                   for track in xrange(self.SESSION_WIDTH) ]
+                                 for scene in xrange(self.SESSION_HEIGHT)]
+
         self._session_matrix = ButtonMatrixElement(name='Button_Matrix', rows=self._matrix_buttons)
-        self._scene_launch_buttons = [ make_color_button(0, index + 82, name='Scene_Launch_%d' % (index + 1)) for index in xrange(self.SESSION_HEIGHT)
-                                     ]
+
+        self._scene_launch_buttons = [ make_color_button(0, index + 82,
+                                                         name='Scene_Launch_%d' % (index + 1))
+                                       for index in xrange(self.SESSION_HEIGHT)]
+
         self._stop_button = self.make_shifted_button(self._scene_launch_buttons[0])
         self._solo_button = self.make_shifted_button(self._scene_launch_buttons[1])
         self._arm_button = self.make_shifted_button(self._scene_launch_buttons[2])

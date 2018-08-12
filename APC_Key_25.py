@@ -25,8 +25,8 @@ class APC_Key_25(APC, OptimizedControlSurface):
     HAS_TRANSPORT = True
 
     # Our clip launcher is sideways
-    MATRIX_WIDTH = SESSION_HEIGHT
-    MATRIX_HEIGHT = SESSION_WIDTH
+    MATRIX_SCENES = 8
+    MATRIX_TRACKS = 5
 
     def make_shifted_button(self, button):
         return ComboElement(button, modifiers=[self._shift_button])
@@ -66,11 +66,11 @@ class APC_Key_25(APC, OptimizedControlSurface):
                                 ]
         self._scene_launch_buttons = [ make_stop_button(0, 64 + index,
                                                   name='Scence_Launch_%d' % (index + 1))
-                                 for index in xrange(self.MATRIX_HEIGHT)]
+                                 for index in xrange(self.MATRIX_SCENES)]
 
         self._select_buttons = [ make_color_button(0, index + 82,
                                                          name='Track_Select_%d' % (index + 1))
-                                       for index in xrange(self.MATRIX_WIDTH)]
+                                       for index in xrange(self.MATRIX_TRACKS)]
 
         self._up_button = self.make_shifted_button(self._scene_launch_buttons[0])
         self._down_button = self.make_shifted_button(self._scene_launch_buttons[1])
@@ -87,10 +87,10 @@ class APC_Key_25(APC, OptimizedControlSurface):
         def matrix_note(x, y):
             return x + self.SESSION_WIDTH * (self.SESSION_HEIGHT - y - 1)
 
-        self._matrix_buttons = [ [ make_color_button(0, matrix_note(track, scene),
+        self._matrix_buttons = [ [ make_color_button(0, matrix_note(scene, track),
                                                      name='%d_Clip_%d_Button' % (track, scene))
-                                   for track in xrange(self.MATRIX_HEIGHT) ]
-                                 for scene in xrange(self.MATRIX_WIDTH)]
+                                   for track in xrange(self.MATRIX_TRACKS) ]
+                                 for scene in xrange(self.MATRIX_SCENES)]
 
         self._session_matrix = ButtonMatrixElement(name='Button_Matrix', rows=self._matrix_buttons)
 
@@ -105,9 +105,21 @@ class APC_Key_25(APC, OptimizedControlSurface):
         return make_button(0, 81, name='Stop_All_Clips_Button')
 
     def _create_session(self):
-        session = SessionComponent(self.SESSION_WIDTH, self.SESSION_HEIGHT, auto_name=True, enable_skinning=True, is_enabled=False, layer=Layer(scene_launch_buttons=self.wrap_matrix(self._scene_launch_buttons), clip_launch_buttons=self._session_matrix, stop_all_clips_button=self._stop_all_button, track_bank_left_button=self._left_button, track_bank_right_button=self._right_button, scene_bank_up_button=self._up_button, scene_bank_down_button=self._down_button))
-        for scene_index in xrange(self.SESSION_HEIGHT):
-            for track_index in xrange(self.SESSION_WIDTH):
+        session = SessionComponent(self.MATRIX_TRACKS,
+                                   self.MATRIX_SCENES,
+                                   auto_name=True,
+                                   enable_skinning=True,
+                                   is_enabled=False,
+                                   layer=Layer(scene_launch_buttons=self.wrap_matrix(self._scene_launch_buttons),
+                                               clip_launch_buttons=self._session_matrix,
+                                               stop_all_clips_button=self._stop_all_button,
+                                               track_bank_left_button=self._left_button,
+                                               track_bank_right_button=self._right_button,
+                                               scene_bank_up_button=self._up_button,
+                                               scene_bank_down_button=self._down_button))
+
+        for scene_index in xrange(self.MATRIX_SCENES):
+            for track_index in xrange(self.MATRIX_TRACKS):
                 slot = session.scene(scene_index).clip_slot(track_index)
                 slot.layer = Layer(select_button=self._shift_button)
 

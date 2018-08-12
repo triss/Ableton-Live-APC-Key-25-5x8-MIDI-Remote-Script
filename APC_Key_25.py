@@ -89,8 +89,8 @@ class APC_Key_25(APC, OptimizedControlSurface):
 
         self._matrix_buttons = [ [ make_color_button(0, matrix_note(track, scene),
                                                      name='%d_Clip_%d_Button' % (track, scene))
-                                   for track in xrange(self.SESSION_WIDTH) ]
-                                 for scene in xrange(self.SESSION_HEIGHT)]
+                                   for track in xrange(self.MATRIX_HEIGHT) ]
+                                 for scene in xrange(self.MATRIX_WIDTH)]
 
         self._session_matrix = ButtonMatrixElement(name='Button_Matrix', rows=self._matrix_buttons)
 

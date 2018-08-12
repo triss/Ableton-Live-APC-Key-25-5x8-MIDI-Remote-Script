@@ -64,15 +64,15 @@ class APC_Key_25(APC, OptimizedControlSurface):
         self._shift_button = make_button(0, 98, resource_type=SharedResource, name='Shift_Button')
         self._parameter_knobs = [ make_knob(0, index + 48, name='Parameter_Knob_%d' % (index + 1)) for index in xrange(self.SESSION_WIDTH)
                                 ]
-        self._scence_launch_buttons = [ make_stop_button(0, 82 + index,
-                                                  name='Track_Select_%d' % (index + 1))
+        self._scene_launch_buttons = [ make_stop_button(0, 64 + index,
+                                                  name='Scence_Launch_%d' % (index + 1))
                                  for index in xrange(self.MATRIX_HEIGHT)]
 
-        self._select_buttons = [ make_color_button(0, index + 64,
-                                                         name='Scene_Launch_%d' % (index + 1))
+        self._select_buttons = [ make_color_button(0, index + 82,
+                                                         name='Track_Select_%d' % (index + 1))
                                        for index in xrange(self.MATRIX_WIDTH)]
 
-        self._up_button = self.make_shifted_button(self.scene_launch_buttons[0])
+        self._up_button = self.make_shifted_button(self._scene_launch_buttons[0])
         self._down_button = self.make_shifted_button(self._scene_launch_buttons[1])
         self._left_button = self.make_shifted_button(self._scene_launch_buttons[2])
         self._right_button = self.make_shifted_button(self._scene_launch_buttons[3])
